@@ -89,18 +89,21 @@ first_lecturer = Lecturer('Some','Buddy')
 first_lecturer.courses_attached += ['Python']
 
 second_lecturer = Lecturer('Vasya','Buddy')
-second_lecturer.courses_attached += ['Python', 'Git']
+second_lecturer.courses_attached += ['Python']
 '///////////////////////////////////////////'
 
 first_student = Student('Dima', 'Gor', 'man')
-first_student.courses_in_progress += ['Python', 'Git']
+first_student.courses_in_progress += ['Python']
 first_student.finished_courses += ['Введение в программирование']
-first_student.rate_lecturer(second_lecturer, 'Git', 7.9)
+first_student.rate_lecturer(first_lecturer, 'Python', 9.9)
+first_student.rate_lecturer(second_lecturer, 'Python', 7.9)
 
 second_student = Student('Vadim', 'Gor', 'man')
 second_student.courses_in_progress += ['Python']
 second_student.finished_courses += ['Введение в программирование']
-second_student.rate_lecturer(first_lecturer, 'Python', 9.9)
+second_student.rate_lecturer(first_lecturer, 'Python', 7.9)
+second_student.rate_lecturer(second_lecturer, 'Python', 4.9)
+
 
 '///////////////////////////////////////////'
 
@@ -110,20 +113,43 @@ first_reviewer.courses_attached += ['Python']
 first_reviewer.rate_hw(first_student, 'Python', 9)
 first_reviewer.rate_hw(first_student, 'Python', 9)
 first_reviewer.rate_hw(first_student, 'Python', 9)
-
 first_reviewer.rate_hw(second_student, 'Python', 4)
 first_reviewer.rate_hw(second_student, 'Python', 4)
 first_reviewer.rate_hw(second_student, 'Python', 4)
 
 
+def grade_av(students_list, course):
+    sum_of_grades = 0
+    counter = 0
+    for student in students_list:
+        for grade in student.grades[course]:
+            sum_of_grades += grade
+            counter += 1
+    return sum_of_grades/counter
+
+def grades_lect(lecturers_list, course):
+    sum_of_grades = 0
+    counter = 0
+    for lector in lecturers_list:
+        for grade_lector in lector.grades[course]:
+            sum_of_grades += grade_lector
+            counter += 1
+    return sum_of_grades/counter
 
 print(first_reviewer)
 
 print(first_student)
 print(second_student)
 
+
 print(second_student < first_student)
 
 print(first_lecturer)
 print(second_lecturer)
 print(second_lecturer < first_lecturer)
+
+students_list = [first_student, second_student]
+lecturers_list = [first_lecturer, second_lecturer]
+
+print(f'Средняя оценка всех учащихся на курсе Python {grade_av(students_list,"Python")}')
+print(f'Средняя оценка всех преподавателей на курсе Python {grades_lect(lecturers_list, "Python")}')
